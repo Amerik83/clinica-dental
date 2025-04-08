@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Clínica Dental América</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background: #fff;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    section {
+      margin-bottom: 2.5rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #444;
+    }
+
+    .accordion {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .accordion button {
+      background-color: #f1f1f1;
+      cursor: pointer;
+      padding: 1rem;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      transition: background-color 0.2s ease;
+      font-weight: bold;
+    }
+
+    .accordion button:hover {
+      background-color: #e0e0e0;
+    }
+
+    .accordion .content {
+      padding: 1rem;
+      display: none;
+      background: #fff;
+      border-top: 1px solid #ddd;
+    }
+
+    form {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    form input, form textarea, form select {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    form button {
+      margin-top: 1.5rem;
+      background: #3e8ed0;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    form button:hover {
+      background: #337abc;
+    }
+
+    .success {
+      color: green;
+      margin-top: 1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.9rem;
+      background: #f1f1f1;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Clínica Dental América</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>Sobre Nosotros</h2>
+      <p>Somos una clínica dental especializada en prótesis y carillas dentales. Nuestro compromiso es brindar atención profesional, humana y estética a todos nuestros pacientes, usando tecnología de vanguardia y materiales de alta calidad.</p>
+    </section>
+
+    <section>
+      <h2>Especialidades</h2>
+
+      <div class="accordion">
+        <button onclick="toggleAccordion(this)">Prótesis Dentales</button>
+        <div class="content">
+          <p>Reemplazo funcional y estético de dientes perdidos con prótesis removibles o fijas personalizadas.</p>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button onclick="toggleAccordion(this)">Carillas Dentales</button>
+        <div class="content">
+          <p>Corrección de forma, tamaño y color de los dientes con carillas estéticas de alta calidad.</p>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button onclick="toggleAccordion(this)">Limpieza y Profilaxis</button>
+        <div class="content">
+          <p>Tratamientos preventivos para mantener una salud bucal óptima y prevenir enfermedades dentales.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Agendar Cita</h2>
+      <form id="appointment-form">
+        <label for="name">Nombre completo</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="specialty">Especialidad</label>
+        <select id="specialty" name="specialty" required>
+          <option value="">Selecciona una especialidad</option>
+          <option value="Prótesis Dentales">Prótesis Dentales</option>
+          <option value="Carillas Dentales">Carillas Dentales</option>
+          <option value="Limpieza y Profilaxis">Limpieza y Profilaxis</option>
+        </select>
+
+        <label for="date">Fecha preferida</label>
+        <input type="date" id="date" name="date" required />
+
+        <label for="message">Comentarios adicionales</label>
+        <textarea id="message" name="message" rows="3"></textarea>
+
+        <button type="submit">Enviar solicitud</button>
+        <p class="success" id="success-msg"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Clínica Dental América. Todos los derechos reservados.
+  </footer>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script>
+    // Configuración de Firebase (reemplazar con tus propios datos)
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_AUTH_DOMAIN",
+      projectId: "TU_PROJECT_ID",
+      storageBucket: "TU_BUCKET",
+      messagingSenderId: "TU_SENDER_ID",
+      appId: "TU_APP_ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Acordeones
+    function toggleAccordion(button) {
+      const content = button.nextElementSibling;
+      content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Enviar formulario
+    const form = document.getElementById('appointment-form');
+    const successMsg = document.getElementById('success-msg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = {
+        name: form.name.value,
+        email: form.email.value,
+        specialty: form.specialty.value,
+        date: form.date.value,
+        message: form.message.value,
+        timestamp: new Date()
+      };
+
+      try {
+        await db.collection("appointments").add(data);
+        successMsg.textContent = "¡Tu cita ha sido solicitada exitosamente!";
+        form.reset();
+      } catch (error) {
+        console.error("Error al enviar la cita:", error);
+        successMsg.textContent = "Error al enviar la cita. Intenta nuevamente.";
+      }
+    });
+  </script>
+</body>
+</html>
